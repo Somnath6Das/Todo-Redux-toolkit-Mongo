@@ -1,33 +1,28 @@
 import { createReducer } from '@reduxjs/toolkit';
+import {updateStatus} from '../redux-state/Action';
 
 const initialState = {
-    name: "Somnath",
+    name: "Som",
     age: 36,
-    status: "programmer"
+    status: "Single"
 }
 
 // redux-toolkit
-export default createReducer(initialState, (builder)=>{
-    builder.addCase('UPDATE_AGE', (state, action)=>{
+export default createReducer(initialState, (builder) => {
+    builder.addCase('UPDATE_AGE', (state, action) => {
         state.age = action.payload;
-    } )
-})
+    });
+    builder.addCase('UPDATE_NAME', (state, action) => {
+        state.name = action.payload;
+    });
+    builder.addCase(updateStatus, (state, action) => {
+        state.status = action.payload;
+    });
+});
 
 
 
 
 
-
-// old redux
-// const updateAge = (state = initialState, action) => {
-//     if (action.type === 'UPDATE_AGE') {
-//         return {
-//             ...state, age: action.payload
-//         }
-//     }
-//     return state;
-// }
-
-// export default updateAge;
 
 

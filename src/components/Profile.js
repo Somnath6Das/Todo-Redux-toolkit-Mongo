@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { updateStatus } from '../redux-state/Action';
+import { updateStatus, fetchName } from '../redux-state/Action';
 
 const Profile = () => {
     const { name, age, status } = useSelector((state) => state);
@@ -11,11 +11,8 @@ const Profile = () => {
         // payload is a action of new value which you have given to the variable.
         dispatch({ type: 'UPDATE_AGE', payload: age });
     }
-    
-    const updateName = async () => {
-        const res = await fetch('https://somnath6das.github.io/api/redux-course.json');
-       const result = await res.json()
-        dispatch({type: 'UPDATE_NAME', payload: result[0].name});
+    const updateName = async () => {     
+        dispatch(fetchName());
     }
    
    
@@ -26,7 +23,7 @@ const Profile = () => {
     return (
         <div>
             <h2>I am {name} and my age is {age}, I am a {status}.</h2>
-            <button onClick={() => updateName('Epic')}>update name</button>
+            <button onClick={() => updateName()}>update name</button>
             <button onClick={() => updateAge(40)}>update age</button>
             <button onClick={() => changeStatus('Coder')}>update status</button>
         </div>

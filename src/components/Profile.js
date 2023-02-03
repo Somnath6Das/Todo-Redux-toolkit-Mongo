@@ -11,9 +11,13 @@ const Profile = () => {
         // payload is a action of new value which you have given to the variable.
         dispatch({ type: 'UPDATE_AGE', payload: age });
     }
-    const updateName = (name) => {
-        dispatch({type: 'UPDATE_NAME', payload: name });
+    
+    const updateName = async () => {
+        const res = await fetch('https://somnath6das.github.io/api/redux-course.json');
+       const result = await res.json()
+        dispatch({type: 'UPDATE_NAME', payload: result[0].name});
     }
+   
    
     const changeStatus = (status) => {
         dispatch(updateStatus(status));

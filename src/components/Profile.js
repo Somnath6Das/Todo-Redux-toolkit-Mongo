@@ -1,18 +1,18 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { updateStatus, fetchName } from '../redux-state/Action';
+import { updateName, updateAge, updateStatus } from '../redux-state/useSlice';
 
 const Profile = () => {
     const { name, age, status } = useSelector((state) => state);
 
     const dispatch = useDispatch();
-    const updateAge = (age) => {
+    const changeAge = (age) => {
         // type is which variable value you want tu update,
         // payload is a action of new value which you have given to the variable.
-        dispatch({ type: 'UPDATE_AGE', payload: age });
+        dispatch(updateAge(age));
     }
-    const updateName = async () => {     
-        dispatch(fetchName());
+    const changeName = (name) => {     
+        dispatch(updateName(name));
     }
    
    
@@ -23,8 +23,8 @@ const Profile = () => {
     return (
         <div>
             <h2>I am {name} and my age is {age}, I am a {status}.</h2>
-            <button onClick={() => updateName()}>update name</button>
-            <button onClick={() => updateAge(40)}>update age</button>
+            <button onClick={() => changeName('Animax')}>update name</button>
+            <button onClick={() => changeAge(40)}>update age</button>
             <button onClick={() => changeStatus('Coder')}>update status</button>
         </div>
     );

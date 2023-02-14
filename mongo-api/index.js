@@ -2,9 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { User } from "./models/user.js";
 
+import { User } from "./models/user.js";
+import { requireLogin } from "./RequireLogin.js";
 const app = express();
 dotenv.config();
 
@@ -56,23 +56,6 @@ app.post('/signin', async (req, res) => {
     }
 });
 
-
-
-
-const requireLogin = (req, res, next) => {
-// get a token from signing and send through get request header section, key will be authorization and value will be token. 
-    const { authorization } = req.headers;
-    if (!authorization) {
-        return res.status(401).json({ error: "you must be logged in!" });
-    }
-    try {
-        const { userId } = jwt.verify(authorization, process.env.JWT_SECRET);
-        req.user = userId;
-        next();
-    } catch (err) {
-        return res.status(401).json({ error: "invalid token!" });
-    }
-}
 
 app.get('/test',requireLogin,(req, res) => {
     res.json({message: req.user});

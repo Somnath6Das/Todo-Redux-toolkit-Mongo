@@ -3,14 +3,14 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { User } from "./models/user.js"
+import { User } from "./models/user.js";
 
 const app = express();
 dotenv.config();
 
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
-    console.log("connected to MongoDB")
+    console.log("connected to MongoDB");
 });
 
 app.use(express.json());
@@ -46,8 +46,8 @@ app.post('/signin', async (req, res) => {
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (isMatch) {
-           const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET);
-           res.status(201).json({token});
+            const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+            res.status(201).json({ token });
         } else {
             return res.status(401).json({ error: "User email and password does not match!" });
         }
@@ -58,6 +58,27 @@ app.post('/signin', async (req, res) => {
 
 
 
+
+const requireLogin = (req, res, next) => {
+// get a token from signing and send through get request header section, key will be authorization and value will be token. 
+    const { authorization } = req.headers;
+    if (!authorization) {
+        return res.status(401).json({ error: "you must be logged in!" });
+    }
+    try {
+        const { userId } = jwt.verify(authorization, process.env.JWT_SECRET);
+        req.user = userId;
+        next();
+    } catch (err) {
+        return res.status(401).json({ error: "invalid token!" });
+    }
+}
+
+app.get('/test',requireLogin,(req, res) => {
+    res.json({message: req.user});
+});
+
+
 app.listen(8800, () => {
     console.log("Backend server listen port: 8800");
-})
+});

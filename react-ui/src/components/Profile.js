@@ -11,7 +11,7 @@ const Profile = () => {
         // payload is a action of new update value which you have given to the variable.
         dispatch(updateAge(age));
     }
-    const changeName =() => {   
+    const changeName = () => {   
         dispatch(fetchUserName());
     }
    
@@ -30,4 +30,4 @@ const Profile = () => {
     );
 }
 
-export default Profile
+export default Profile;

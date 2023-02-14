@@ -6,7 +6,7 @@ const initialState = {
     age: 36,
     status: "Single"
 }
-export const fetchUserName = createAsyncThunk(
+export const fetchUserName = createAsyncThunk (
     'fetchName',
     async() => {
         const response = await fetch('https://somnath6das.github.io/api/redux-course.json');
@@ -19,7 +19,7 @@ export const fetchUserName = createAsyncThunk(
 const userReducer = createSlice({
     name:"Person",
     initialState: initialState,
-    reducers:{
+    reducers: {
         updateName(state, action){
            state.name = action.payload;
         },
@@ -32,13 +32,13 @@ const userReducer = createSlice({
       
     },
     extraReducers:{
-        [fetchUserName.pending]: (state, action) =>{
+        [fetchUserName.pending]: (state, action) => {
             state.name = 'Loading...';
         },
-        [fetchUserName.fulfilled]: (state, action) =>{
+        [fetchUserName.fulfilled]: (state, action) => {
             state.name = action.payload;
         },
-        [fetchUserName.rejected]: (state, action) =>{
+        [fetchUserName.rejected]: (state, action) => {
             state.name = 'Try after few min.';
         },
     }

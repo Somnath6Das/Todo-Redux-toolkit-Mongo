@@ -2,9 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
-
+import jwt from "jsonwebtoken";
 import { User } from "./models/user.js";
-import { requireLogin } from "./RequireLogin.js";
+import { Todo } from "./models/todo.js";
+import {requireLogin} from "./controllers/RequireLogin.js.js";
 const app = express();
 dotenv.config();
 
@@ -57,10 +58,27 @@ app.post('/signin', async (req, res) => {
 });
 
 
-app.get('/test',requireLogin,(req, res) => {
-    res.json({message: req.user});
+
+app.post('/createtodo', requireLogin, async (req, res) => {
+   
+  const data = await new Todo({
+        todo: req.body.todo,
+        todoBy: req.user
+    }).save();
+    res.status(201).json({message: data})
 });
 
+
+// find todo as per user id.
+app.get('/gettodos',requireLogin, async (req, res)=>{
+    const data = await Todo.find({todoBy: req.user});
+    res.status(200).json({message: data})
+});
+
+app.delete('/remove/:id', requireLogin, async(req, res) =>{
+  const removeTodo = await Todo.findOneAndRemove({_id: req.params.id});
+  res.status(200).json({message: removeTodo})
+})
 
 app.listen(8800, () => {
     console.log("Backend server listen port: 8800");

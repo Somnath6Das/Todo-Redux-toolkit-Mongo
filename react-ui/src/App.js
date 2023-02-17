@@ -1,10 +1,11 @@
 import './App.css';
-import Profile from './components/Profile';
+import Auth from './components/Auth';
+
 
 function App() {
   return (
     <div className="App">
-     <Profile/>
+   <Auth/>
     </div>
   );
 }

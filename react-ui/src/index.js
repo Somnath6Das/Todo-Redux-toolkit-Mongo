@@ -17,4 +17,3 @@ root.render (
 );
 
 
-//   "proxy": "http://localhost:8800",

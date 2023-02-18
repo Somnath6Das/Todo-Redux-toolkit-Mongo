@@ -32,6 +32,7 @@ const authReducer = createSlice({
         if(action.payload.error){
             state.error = action.payload.error;
         }else{
+            // message comes from api of signup user.
             state.error = action.payload.message;
         }
     },

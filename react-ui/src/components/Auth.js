@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { signupUser } from '../redux-state/authReducer';
+import { signupUser, signinUser} from '../redux-state/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Auth() {
@@ -11,7 +11,7 @@ function Auth() {
 
     const authenticate = () => {
         if (auth === 'Signin') {
-
+            dispatch(signinUser({email, password}))
         } else {
             dispatch(signupUser({ email, password }));
         }

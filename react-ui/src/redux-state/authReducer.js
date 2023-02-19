@@ -21,22 +21,53 @@ export const signupUser = createAsyncThunk(
 
     }
 )
-const authReducer = createSlice({
+export const signinUser = createAsyncThunk(
+    'signinuser',
+    async (body) => {
+        const result = await fetchCondition('/signin', body,);
+        return result;
+
+    }
+)
+ const authReducer = createSlice({
     name: "user",
     // key and value same of initialState,
     initialState,
-    reducers: {},
-    extraReducers: {
-        [signupUser.fulfilled]: (state, action) => {
-        state.loading = false;
-        if(action.payload.error){
-            state.error = action.payload.error;
-        }else{
-            // message comes from api of signup user.
-            state.error = action.payload.message;
+    reducers: {
+        // manage login and todo screen state. -> App.js
+        addToken: (state, action) => {
+            state.token = localStorage.getItem('token');
         }
     },
-        [signupUser.pending]: (state, action) => { state.loading = true } }
-})
-
+    extraReducers: {
+        [signupUser.pending]: (state, action) => {
+            state.loading = true
+        },
+        [signupUser.fulfilled]: (state, { payload: { error, message } }) => {
+            state.loading = false;
+            if (error) {
+                state.error = error;
+            } else {
+                // message comes from api of signup user.
+                state.error = message;
+            }
+        },
+        
+        [signinUser.pending]: (state, action) => {
+            state.loading = true
+        },
+        [signinUser.fulfilled]: (state, { payload: { error, token} }) => {
+            state.loading = false;
+            if (error) {
+                state.error = error;
+            } else {
+                state.token = token;
+                // save token on local storage
+                localStorage.setItem('token', token);            }
+        },
+    }
+});
+// export to App.js
+export const {addToken} = authReducer.actions;
+// export to ReduxStore.js and Auth.js
 export default authReducer.reducer;

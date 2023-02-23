@@ -25,7 +25,7 @@ function Auth() {
             {error && <h5>{error}</h5>}
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button className='btn' onClick={() => authenticate()}>{auth}</button>
+            <button className='btn #00b0ff light-blue accent-3' onClick={() => authenticate()}>{auth}</button>
             {auth === 'Signin' ? <h6 onClick={() => setAuth('Signup')}>Don't have an account?</h6> : <h6 onClick={() => setAuth('Signin')}>Already have an account?</h6>}
         </div>
     );

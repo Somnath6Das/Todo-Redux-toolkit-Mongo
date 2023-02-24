@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "./models/user.js";
 import { Todo } from "./models/todo.js";
-import {requireLogin} from "./controllers/RequireLogin.js.js";
+import {requireLogin} from "./controllers/RequireLogin.js";
 const app = express();
 dotenv.config();
 
@@ -79,6 +79,15 @@ app.delete('/remove/:id', requireLogin, async(req, res) =>{
   const removeTodo = await Todo.findOneAndRemove({_id: req.params.id});
   res.status(200).json({message: removeTodo})
 })
+
+if(process.env.NODE_ENV == 'production'){
+    const path = require('path');
+    app.get('/', (req, res)=>{
+        app.use(express.static(__dirname,'react-ui', 'build'))
+        res.sendFile(path.resolve(__dirname,'react-ui', 'build','index.html'))
+    })
+}
+
 
 app.listen(8800, () => {
     console.log("Backend server listen port: 8800");

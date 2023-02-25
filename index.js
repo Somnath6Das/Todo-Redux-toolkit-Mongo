@@ -80,15 +80,15 @@ app.delete('/remove/:id', requireLogin, async(req, res) =>{
   res.status(200).json({message: removeTodo})
 })
 
-if(process.env.NODE_ENV == 'production'){
-    const path = require('path');
-    app.get('/', (req, res)=>{
-        app.use(express.static(__dirname,'react-ui', 'build'))
-        res.sendFile(path.resolve(__dirname,'react-ui', 'build','index.html'))
-    })
-}
+// if(process.env.NODE_ENV == 'production'){
+//     const path = require('path');
+//     app.get('/', (req, res)=>{
+//         app.use(express.static(__dirname,'react-ui', 'build'))
+//         res.sendFile(path.resolve(__dirname,'react-ui', 'build','index.html'))
+//     })
+// }
 
 
-app.listen(8800, () => {
+app.listen(process.env.PORT, () => {
     console.log("Backend server listen port: 8800");
 });
